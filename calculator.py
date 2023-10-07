@@ -4,18 +4,18 @@
 
 import tkinter as tk
 from tkinter import *
-from tkinter import ttk
 
 class calc( Frame ):
     def __init__( self ):
         tk.Frame.__init__(self)
         self.result = 0
+        self.addend = 0
+        self.operation = None
         global label
         label=Label(self.master, text=self.result, font=('Aerial 18'), justify=RIGHT)
         label.pack()
         self.pack()
         self.master.title("Calculator")
-        curr_result = 0
 
 
         # all clear (ac) calc button
@@ -100,40 +100,65 @@ class calc( Frame ):
         self.quit_button.grid( row = 5, column = 1, columnspan = 4, sticky = W+E+N+S )
 
     def apply_operation(self, operation):
-        return -1
+        if self.operation:
+            self.get_result()
+            self.operation = None
+        else:
+            self.operation = operation
+        if self.operation == '÷':
+            self.addend = self.result
+            self.operation = '÷'
+        elif operation == 'x':
+            self.addend = self.result
+            self.operation = 'x'
+        elif operation == '+':
+            self.addend = self.result
+            self.operation = '+'
+        elif operation == '-':
+            self.addend = self.result
+            self.operation = '-'
+        
     
     def get_num(self, number):
-        self.curr_result = number
         self.result = number
-        print('my number is: ', number)
         self.update_result(number)
 
     def clear(self):
         self.result = 0
-        self.curr_result = 0
         self.update_result(0)
 
     def change_signs(self):
         self.result *= -1
-        self.curr_result = self.result
-        self.update_result(self.curr_result)
+        self.update_result(self.result)
 
     def percentify(self):
-        return -1
+        self.result /= 100
+        self.update_result(self.result)
     
     def add_decimal(self):
         return -1
     
     def get_result(self):
-        self.result = self.curr_result
+        if self.operation:
+            if self.operation == '÷':
+                self.result /= self.addend
+            elif self.operation == 'x':
+                self.result *= self.addend
+            elif self.operation == '+':
+                self.result += self.addend
+            elif self.operation == '-':
+                self.result -= self.addend
+        self.operation = None
+        self.update_result(self.result)
 
     def update_result(self, number):
-        print("number: ", number, "curr_number: ", self.result)
         label.configure(text=number)
-        #label.pack()
 
     def close_window(self):
         self.destroy()
+
+    def is_valid_expression(self):
+        return False
 
 def main(): 
     calc().mainloop()
