@@ -120,8 +120,11 @@ class calc( Frame ):
         
     
     def get_num(self, number):
-        self.result = number
-        self.update_result(number)
+        if not self.operation:
+            self.result = (self.result * 10) + number
+        else:
+            self.result = number
+        self.update_result(self.result)
 
     def clear(self):
         self.result = 0
@@ -136,22 +139,25 @@ class calc( Frame ):
         self.update_result(self.result)
     
     def add_decimal(self):
+        # not completed yet
         return -1
     
     def get_result(self):
         if self.operation:
             if self.operation == '÷':
-                self.result /= self.addend
+                self.result = self.addend / self.result
             elif self.operation == 'x':
                 self.result *= self.addend
             elif self.operation == '+':
                 self.result += self.addend
             elif self.operation == '-':
-                self.result -= self.addend
-        self.operation = None
+                self.result = self.addend - self.result
+        self.addend = 0
         self.update_result(self.result)
 
     def update_result(self, number):
+        if type(number) == 'float' and number.is_integer():
+            number = int(number)
         label.configure(text=number)
 
     def close_window(self):
