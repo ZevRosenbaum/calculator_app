@@ -1,5 +1,4 @@
 # Python Calculator App
-### Tkinter used for GUI
 
 #### I didn't want to fork over the money for a calculator, so I did this instead :laughing:
 
