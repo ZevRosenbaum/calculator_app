@@ -10,6 +10,7 @@ class calc( Frame ):
         tk.Frame.__init__(self)
         self.result = 0
         self.addend = 0
+        self.dec_length = 0
         self.operation = None
         global label
         label=Label(self.master, text=self.result, font=('Aerial 18'), justify=RIGHT)
@@ -117,17 +118,27 @@ class calc( Frame ):
         elif operation == '-':
             self.addend = self.result
             self.operation = '-'
+        self.result = 0
+        self.dec_length = 0
         
     
     def get_num(self, number):
-        if not self.operation:
+        if not self.operation and self.dec_length == 0:
             self.result = (self.result * 10) + number
+        elif not self.operation:
+            print('my number: ', number)
+            print('divided number: ', number / (10**(self.dec_length+1)))
+            self.result += number / (10**(self.dec_length))
+            self.result = round(self.result, self.dec_length)
+            self.dec_length += 1
         else:
             self.result = number
         self.update_result(self.result)
 
     def clear(self):
         self.result = 0
+        self.operation = None
+        self.dec_length = 0
         self.update_result(0)
 
     def change_signs(self):
@@ -139,8 +150,13 @@ class calc( Frame ):
         self.update_result(self.result)
     
     def add_decimal(self):
-        # not completed yet
-        return -1
+        if self.dec_length == 0:
+            if self.result == 0:
+                self.result = float(0.0)
+            else:
+                self.result = float(self.result)
+            self.update_result(self.result)
+            self.dec_length = 1
     
     def get_result(self):
         if self.operation:
@@ -153,6 +169,7 @@ class calc( Frame ):
             elif self.operation == '-':
                 self.result = self.addend - self.result
         self.addend = 0
+        self.dec_length = 0
         self.update_result(self.result)
 
     def update_result(self, number):
