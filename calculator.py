@@ -125,9 +125,7 @@ class calc( Frame ):
     def get_num(self, number):
         if not self.operation and self.dec_length == 0:
             self.result = (self.result * 10) + number
-        elif not self.operation:
-            print('my number: ', number)
-            print('divided number: ', number / (10**(self.dec_length+1)))
+        elif not self.operation or self.dec_length != 0:
             self.result += number / (10**(self.dec_length))
             self.result = round(self.result, self.dec_length)
             self.dec_length += 1
