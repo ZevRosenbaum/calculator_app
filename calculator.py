@@ -18,7 +18,6 @@ class calc( Frame ):
         self.pack()
         self.master.title("Calculator")
 
-
         # all clear (ac) calc button
         self.all_clear = Button( self, text = "AC", width = 25,
                                command = self.clear )
@@ -167,12 +166,14 @@ class calc( Frame ):
             elif self.operation == '-':
                 self.result = self.addend - self.result
         self.addend = 0
+        if type(self.result) is not int:
+            right_of_dec = str(self.result)[str(self.result).index('.')+1:]
+            if type(self.result) is not int and right_of_dec.count('0') == len(right_of_dec):
+                self.result = int(self.result)
         self.dec_length = 0
         self.update_result(self.result)
 
     def update_result(self, number):
-        if type(number) == 'float' and number.is_integer():
-            number = int(number)
         label.configure(text=number)
 
     def close_window(self):
