@@ -6,5 +6,4 @@
 This calculator is an imitation of the native Apple [calculator app](https://en.wikipedia.org/wiki/Calculator_(Apple)).
 <br><br>
 See the following short user demo.<br>
-[![User Demo]]
-(calc_user_demo.mov "User Demo")
+[User Demo](calc_user_demo.mov "User Demo")
