@@ -179,9 +179,6 @@ class calc( Frame ):
     def close_window(self):
         self.destroy()
 
-    def is_valid_expression(self):
-        return False
-
 def main(): 
     calc().mainloop()
 
